@@ -3357,13 +3357,14 @@ KẾT QUẢ ĐÃ TÍNH SẴN CHO NGÀY NÀY (HÃY ĐỌC TRỰC TIẾP VÀ TRẢ
                 // Đang hỏi về 1 ngày cụ thể: gửi chi tiết ngày đó
                 dataSection.selected_day = dailyInfo;
             } else if (ctx.isOverview) {
-                // Overview mode, không hỏi ngày cụ thể: gửi tóm tắt tất cả ngày
+                // Overview mode, không hỏi ngày cụ thể: gửi tóm tắt tất cả ngày kèm theo chi tiết xe để AI tự so sánh
                 dataSection.daily_summaries = AI_DATA.daily.map(d => ({
                     date: d.date,
                     weekday: d.weekday,
                     total: d.total_vehicles,
                     avgSpd: d.avg_speed,
-                    peak: d.peak_hour
+                    peak: d.peak_hour,
+                    vehicle_types: d.vehicle_types
                 }));
             }
 
@@ -3415,8 +3416,8 @@ ${JSON.stringify(dataSection)}
 
 HƯỚNG DẪN CẤU TRÚC DỮ LIỆU:
 - monthly: Tổng quan tháng 01/2026
-- daily_summaries: Tóm tắt từng ngày (chỉ có tổng xe, vận tốc TB, giờ cao điểm)
-- selected_day: Chi tiết đầy đủ 1 ngày (có lưu lượng theo giờ, phân loại xe, ...) - để trả lời khi được hỏi chi tiết ngày cụ thể.`
+- daily_summaries: Tóm tắt từng ngày chứa tổng xe, vận tốc TB, giờ cao điểm và chi tiết CÁC LOẠI XE (vehicle_types) để bạn so sánh giữa các ngày.
+- selected_day: Chi tiết đầy đủ 1 ngày - để trả lời khi được hỏi chi tiết ngày cụ thể.`
                 };
 
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
