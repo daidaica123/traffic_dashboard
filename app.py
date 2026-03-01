@@ -13,23 +13,32 @@ st.set_page_config(
 # Read the HTML file
 html_file_path = "traffic_dashboard.html"
 
-# Custom CSS to force the iframe to take full height
+# Custom CSS to force the iframe to take full height and remove Streamlit's default margins
 st.markdown("""
     <style>
+        /* Hide Streamlit components */
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        #MainMenu {visibility: hidden;}
+        
         .block-container {
             padding: 0rem !important;
-            max-width: 100%;
+            margin: 0rem !important;
+            max-width: 100% !important;
         }
-        .stApp {
-            margin: 0;
-            padding: 0;
-        }
+        
+        /* Chỉnh iframe tràn viền và bỏ scroll overflow */
         iframe {
             height: 100vh !important;
             width: 100vw !important;
             border: none;
             margin: 0;
             padding: 0;
+        }
+        
+        /* Ẩn thanh cuộn dọc (nếu có) do viền ngoài của Streamlit */
+        body, html, [data-testid="stAppViewContainer"] {
+            overflow: hidden !important;
         }
     </style>
 """, unsafe_allow_html=True)
